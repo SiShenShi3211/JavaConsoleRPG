@@ -285,7 +285,7 @@ public class Personal1
 	//Default clearing
     System.out.print("\033[H\033[2J"); 
     //For eclipse
-    System.out.print("\n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n"); 
+    System.out.print("\n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n"); 
     System.out.flush();  
     
     
@@ -456,17 +456,42 @@ public class Personal1
 		//Print contents of current inventory
 		System.out.println("###########\n###########\n");
 		
-		System.out.println("Weapon: " + player.weapon.name);
-		System.out.println("Head: ");
-		System.out.println("Body: ");
-		System.out.println("Leggings: ");
-		System.out.println("Footware: ");
-		
+		System.out.println("(0)Weapon: " + player.weapon.name);
+		System.out.println("(1)Head: ");
+		System.out.println("(2)Body: ");
+		System.out.println("(3)Leggings: ");
+		System.out.println("(4)Footware: ");
+		System.out.println("(5)Accessory: ");
 		
 		//Give player options to do in inventory
 		Scanner sc = new Scanner(System.in);
-		System.out.println("Close inventory: c      Change weapon: v          Change armour:  b");
+		System.out.println("Close inventory: c    Use Item: v       Change weapon: b          Change armour:  n");
 		String input = sc.nextLine();
+		
+		//Switch case for input possibilities
+		switch(input)
+		{
+		
+			//Exit inventory
+			case "c":
+			
+			return;
+			
+			//Open item inventory
+			case "v":
+				System.out.println("OPENING ITEM INVENTORY");
+			break;
+			
+			//Open weapon inventory
+			case "b":
+				System.out.println("OPENING WEAPON INVENTORY");
+			break;
+			
+			//Open armour inventory
+			case "n":
+				System.out.println("OPENING ARMOUR INVENTORY");
+			break;
+		}
 	}
 	
 	
