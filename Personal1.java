@@ -18,13 +18,11 @@ public class Personal1
 		
 		//Notes: Weapon class is in order [Name, Type, req[str, dex, int, fth], damage[str, dex, int, fth] ]
 		
-		//GITHUB STUFF
-		
 		
 		//Test weapon
 		Weapon flamburg = new Weapon("Flamburg, Greatsword of Prince Herlock", "meele", new int[] {1,1, 1, 1}, new int[] {27, 0, 12,0} );
 		player.equipWeapon(flamburg);
-		//temporary wall testing
+		//temporary wall testing 
 		map[1][1] = 1; map[2][1] = 1; map[3][1] = 1;
 		
 		//temporary enemies
