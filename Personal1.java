@@ -18,7 +18,7 @@ public class Personal1
 		
 		//Notes: Weapon class is in order [Name, Type, req[str, dex, int, fth], damage[str, dex, int, fth] ]
 		
-		
+		//GITHUB STUFF
 		
 		
 		//Test weapon
