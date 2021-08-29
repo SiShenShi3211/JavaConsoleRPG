@@ -8,7 +8,24 @@ import java.util.concurrent.TimeUnit;
 public class Personal1
 {
 	//Declare static variables, generally important
-	public static int[][] map = new int[6][6];
+	public static int[][] map = {
+			{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+			{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+			{0,0,1,1,0,0,0,1,1,0,0,0,1,1,0,0},
+			{0,0,1,1,0,0,0,1,1,0,0,0,1,1,0,0},
+			{0,0,1,1,0,0,0,1,1,0,0,0,1,1,0,0},
+			{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+			{0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0},
+			{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+			{0,0,1,1,0,0,0,1,1,0,0,0,1,1,0,0},
+			{0,0,1,1,0,0,0,1,1,0,0,0,1,1,0,0},
+			{0,0,1,1,0,0,0,1,1,0,0,0,1,1,0,0},
+			{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+			{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+			{0,0,0,1,1,0,1,1,1,1,0,1,1,0,0,0},
+			{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+			{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+	};
 	public static NPC[] entities = new NPC[10];
 	public static NPC player = new NPC();
 	public static int turnNumber = 0;
@@ -22,13 +39,12 @@ public class Personal1
 		//Test weapon
 		Weapon flamburg = new Weapon("Flamburg, Greatsword of Prince Herlock", "meele", new int[] {1,1, 1, 1}, new int[] {27, 0, 12,0} );
 		player.equipWeapon(flamburg);
-		//temporary wall testing 
-		map[1][1] = 1; map[2][1] = 1; map[3][1] = 1;
+		
 		
 		//temporary enemies
-		entities[0] = new NPC(false, "Ghost", new int[]{3,3,2,6, 1}, new int[] {2,4});
-		entities[2] = new NPC(false, "Goblin", new int[]{10,10,8,1, 4}, new int[] {1,3});
-		entities[3] = new NPC(false, "Skeleton", new int[]{4,4,5,3, 3}, new int[] {0,2});
+		//entities[0] = new NPC(false, "Ghost", new int[]{3,3,2,6, 1}, new int[] {6,4});
+		//entities[2] = new NPC(false, "Goblin", new int[]{10,10,8,1, 4}, new int[] {5,3});
+		//entities[3] = new NPC(false, "Skeleton", new int[]{4,4,5,3, 3}, new int[] {4,2});
 		
 		//Player
 		entities[1] = player;
@@ -66,7 +82,7 @@ public class Personal1
 	public static void renderFrame()
 	{
 		//Star with 2 blocks of # for outline
-		System.out.println("\n###########\n###########");
+		System.out.println("\n---------------------------------\n---------------------------------");
 		
 		//Increase turn #
 		turnNumber++;
@@ -87,7 +103,7 @@ public class Personal1
 				handlePlayerInput(input);
 		
 		//End with 2 blocks of # for outline
-		System.out.println("\n###########\n###########\n");
+		System.out.println("\n---------------------------------\n---------------------------------\n");
 		
 		
 		
@@ -112,83 +128,13 @@ public class Personal1
 	
 	
 	
-	
-	
-	// FUNCTION THAT HANDLES ATTACKING BETWEEN 2 ENTITIES.
-	public static void attack(NPC attacker, NPC defender, String type)
-	{
-		//Str will handle the damage done
-		//Dex will handle evasion / accuracy
-		
-		// calculate if hit or not (r > 1)
-	float rand = (int)((float)(Math.random() * 100));
-    int defenceValue = 1;
-    
-    
-		
-    //If hit, then take damage hp - (int)((float)(Math.random() * Str) / (float)(defender.def / defenceValue))
-		if (rand > 10)
-		{
-			int damage = calculateDamage(attacker) / defenceValue;
-			defender.takeDamage(damage);
-			System.out.println(attacker.name + " dealt " + damage + " to " + defender.name);
-			
-			
-		}
-		else
-		{
-			System.out.println("Missed " + rand);
-		}
-		
-		//If meele attack then also make defender retaliate (DO NOT RECURSE FOR THE LOVE OF GOD)
-		if (type.equals("meele"))
-		{
-			int defDamage = calculateDamage(defender) / defenceValue;
-			attacker.takeDamage(defDamage);
-			System.out.println(defender.name + " dealt " + defDamage + " to " + attacker.name);
-		}
-		
-		
-	}
-	
-	
-	
-	
-	
-	//FUNCTION THAT CALCULATES THE DAMAGE OF AN ENTITIES ATTACK
-	public static int calculateDamage(NPC entity)
-	{
-		//Inital damage is based on stats
-		int damage = (int)((float)(Math.random() * entity.str));
-		int extraDamage = 0;
-		
-		//If NPC has a weapon (it should) then add extra damage
-		if (entity.weapon != null)
-		{
-			//For the time being weapon damage will be calculated as combination of the different stats
-			extraDamage += entity.weapon.pDamage;
-			extraDamage += entity.weapon.rDamage;
-			extraDamage += entity.weapon.mDamage;
-			extraDamage += entity.weapon.fDamage;
-		}
-		
-		damage += extraDamage;
-		
-		return damage;
-	}
-	
-	
-	
-	
-	
-	
 	// FUNCTION THAT DISPLAYS THE STATS SECTION EVERY FRAME
 	public static void displayStats()
 	{
 		
 		
 		//End with 2 blocks of # for outline
-		System.out.println("###########\n###########\n");
+		System.out.println("---------------------------------\n---------------------------------\n");
 		
 		//print out stats
 		System.out.print("HP: " + player.hp + "/" + player.maxHp + "\n");
@@ -253,7 +199,7 @@ public class Personal1
 
 			}
 			//For each row skip a line
-			System.out.print("\n");
+			System.out.print("$ \n");
 		}
 		
 		
@@ -367,7 +313,7 @@ public class Personal1
 				if (entityAt(player.xPos - 1, player.yPos) && returnEntityAt(player.xPos - 1, player.yPos).dead == false)
 				{
 					//Attack enemy
-					attack(player, returnEntityAt(player.xPos - 1, player.yPos), "meele");
+					player.attack(returnEntityAt(player.xPos - 1, player.yPos));
 				}
 				else
 				{
@@ -387,7 +333,7 @@ public class Personal1
 				if (entityAt(player.xPos + 1, player.yPos) && returnEntityAt(player.xPos + 1, player.yPos).dead == false)
 				{
 					//Attack enemy
-					attack(player, returnEntityAt(player.xPos + 1, player.yPos), "meele");
+					player.attack(returnEntityAt(player.xPos + 1, player.yPos));
 				}
 				else
 				{
@@ -406,7 +352,7 @@ public class Personal1
 				if (entityAt(player.xPos, player.yPos - 1) && returnEntityAt(player.xPos, player.yPos - 1).dead == false)
 				{
 					//Attack enemy
-					attack(player, returnEntityAt(player.xPos, player.yPos - 1), "meele");
+					player.attack(returnEntityAt(player.xPos, player.yPos - 1));
 				}
 				else
 				{
@@ -425,7 +371,7 @@ public class Personal1
 				if (entityAt(player.xPos, player.yPos + 1) && returnEntityAt(player.xPos, player.yPos + 1).dead == false)
 				{
 					//Attack enemy
-					attack(player, returnEntityAt(player.xPos, player.yPos + 1), "meele");
+					player.attack(returnEntityAt(player.xPos, player.yPos + 1));
 				}
 				else
 				{
@@ -454,7 +400,7 @@ public class Personal1
 	public static void printInventory()
 	{
 		//Print contents of current inventory
-		System.out.println("###########\n###########\n");
+		System.out.println("---------------------------------\n---------------------------------\n");
 		
 		System.out.println("(0)Weapon: " + player.weapon.name);
 		System.out.println("(1)Head: ");

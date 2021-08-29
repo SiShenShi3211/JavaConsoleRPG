@@ -30,7 +30,7 @@ public class NPC
 		this.faith = 2;
 		this.dead = false;
 		this.xPos = 4;
-		this.yPos = 3;
+		this.yPos = 5;
 		this.def = 2;
 		this.race = "Human";
 		this.weapon = new Weapon("fists", "meele", new int[] {0,0,0,0}, new int[] {0,0,0,0});
@@ -81,6 +81,9 @@ public class NPC
 			this.hp = this.maxHp;
 		}
 	}
+
+	
+	
 	
 	
 	//FUNCTION WHIH HANDLES PLAYER INPUT
@@ -99,7 +102,7 @@ public class NPC
 					//if player takes the space then attack player instead
 					if (player.xPos == this.xPos - 1 && player.yPos == this.yPos)
 					{
-						
+						this.attack(player);
 					}
 					else
 					{
@@ -117,7 +120,7 @@ public class NPC
 					//if player takes the space then attack player instead
 					if (player.xPos == this.xPos + 1 && player.yPos == this.yPos)
 					{
-						
+						this.attack(player);
 					}
 					else
 					{
@@ -137,7 +140,7 @@ public class NPC
 					//if player takes the space then attack player instead
 					if (player.xPos == this.xPos && player.yPos == this.yPos - 1)
 					{
-						
+						this.attack(player);
 					}
 					else
 					{
@@ -155,7 +158,7 @@ public class NPC
 					//if player takes the space then attack player instead
 					if (player.xPos == this.xPos && player.yPos == this.yPos + 1)
 					{
-						
+						this.attack(player);
 					}
 					else
 					{
@@ -170,6 +173,68 @@ public class NPC
 				break;
 				
 			}
+		}
+		
+		
+		public void attack(NPC defender)
+		{
+			//Str will handle the damage done
+			//Dex will handle evasion / accuracy
+			
+			// calculate if hit or not (r > 1)
+		float rand = (int)((float)(Math.random() * 100));
+	    int defenceValue = 1;
+	    
+	    
+			
+	    //If hit, then take damage hp - (int)((float)(Math.random() * Str) / (float)(defender.def / defenceValue))
+			if (rand > 10)
+			{
+				int damage = calculateDamage(this) / defenceValue;
+				defender.takeDamage(damage);
+				System.out.println(this.name + " dealt " + damage + " to " + defender.name);
+				
+				
+			}
+			else
+			{
+				System.out.println("Missed " + rand);
+			}
+			
+			//If meele attack then also make defender retaliate (DO NOT RECURSE FOR THE LOVE OF GOD)
+			if (this.weapon.type.equals("meele"))
+			{
+				int defDamage = calculateDamage(defender) / defenceValue;
+				this.takeDamage(defDamage);
+				System.out.println(defender.name + " dealt " + defDamage + " to " + this.name);
+			}
+			
+			
+		}
+		
+		
+		
+		
+		//FUNCTION THAT CALCULATES THE DAMAGE OF AN ENTITIES ATTACK
+		private static int calculateDamage(NPC entity)
+		{
+			//Inital damage is based on stats
+			int damage = (int)((float)(Math.random() * entity.str));
+			int extraDamage = 0;
+			
+			//If NPC has a weapon (it should) then add extra damage
+			if (entity.weapon != null)
+			{
+				//For the time being weapon damage will be calculated as combination of the different stats
+				extraDamage += entity.weapon.pDamage;
+				extraDamage += entity.weapon.rDamage;
+				extraDamage += entity.weapon.mDamage;
+				extraDamage += entity.weapon.fDamage;
+			}
+			
+			damage += extraDamage;
+			
+			return damage;
 		}
 		
 		
