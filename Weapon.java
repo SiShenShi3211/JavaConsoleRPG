@@ -1,9 +1,7 @@
 
-public class Weapon {
+public class Weapon extends Item {
 	//Weapon variables
-	String type;
 	int[] req; //Requirements go in order : Str -> dex -> int -> faith
-	String name;
 	int[] damageType; //Damages go in order : physical, ranged, magical, faith
 	
 	
@@ -16,6 +14,8 @@ public class Weapon {
 	{
 		//Basic attributes
 		this.name = name; this.type = type;
+		this.canPickUp = true;
+		this.description = "";
 		
 		//State attributes
 		this.pDamage = damageType[0]; this.rDamage = damageType[1]; 
@@ -25,6 +25,16 @@ public class Weapon {
 		this.strReq = req[0]; this.dexReq = req[1];
 		this.intReq = req[2]; this.faithReq = req[3];
 		
+		
 	}
+	
+	
+	//When the player interacts with this we need to add it to their inventory
+	public void mapInteract()
+	{
+		//Add implementation
+	}
+	
+	
 	
 }

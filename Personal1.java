@@ -27,7 +27,7 @@ public class Personal1
 			{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
 	};
 	public static NPC[] entities = new NPC[10];
-	public static NPC player = new NPC();
+	public static PlayerObject player = new PlayerObject();
 	public static int turnNumber = 0;
 	public static void main(String[] args)
 	{
@@ -39,12 +39,16 @@ public class Personal1
 		//Test weapon
 		Weapon flamburg = new Weapon("Flamburg, Greatsword of Prince Herlock", "meele", new int[] {1,1, 1, 1}, new int[] {27, 0, 12,0} );
 		player.equipWeapon(flamburg);
+		flamburg.setDescription("Sword of the great prince Herlock, unlikely to have made it's way down here...");
 		
+		//Test weapon pickup
+		Consumable testItem = new Consumable("Health Potion", "Looks like Kool-aid doesn't probably taste like it", "h4", 2);
+		testItem.pickUp();
 		
 		//temporary enemies
-		//entities[0] = new NPC(false, "Ghost", new int[]{3,3,2,6, 1}, new int[] {6,4});
-		//entities[2] = new NPC(false, "Goblin", new int[]{10,10,8,1, 4}, new int[] {5,3});
-		//entities[3] = new NPC(false, "Skeleton", new int[]{4,4,5,3, 3}, new int[] {4,2});
+		entities[0] = new NPC(false, "Ghost", new int[]{3,3,2,6, 1}, new int[] {12,8});
+		entities[2] = new NPC(false, "Goblin", new int[]{10,10,8,1, 4}, new int[] {0,3});
+		entities[3] = new NPC(false, "Skeleton", new int[]{4,4,5,3, 3}, new int[] {4,10});
 		
 		//Player
 		entities[1] = player;
@@ -81,11 +85,20 @@ public class Personal1
 	//RECURSIVE FUNCTION WHICH RENDERS FRAME
 	public static void renderFrame()
 	{
-		//Star with 2 blocks of # for outline
-		System.out.println("\n---------------------------------\n---------------------------------");
+		//Top wall
+		System.out.println("\n---------------------------------");
 		
 		//Increase turn #
 		turnNumber++;
+		
+		//Print turn # and log
+		System.out.println("Turn " + turnNumber);
+		player.printLog();
+		
+		//print log
+		
+		//Bottom Wall
+		System.out.println("---------------------------------");
 		
 		// render map
 		renderMap();
@@ -154,7 +167,7 @@ public class Personal1
 	{
 		//write logic to print player
 		//print each layer and then \n at the end of the
-		for (int y = 0; y < map[0].length; y++)
+		for (int y = 0; y < map.length; y++)
 		{
 			//for each tile
 			for (int x = 0; x < map[0].length; x++)
@@ -174,7 +187,7 @@ public class Personal1
 						break;
 					}else if (entity != null && entity.xPos == x && entity.yPos == y)
 					{
-						//if dead then print d otherwide print E
+						//if dead then print d otherwise print E
 						if (entity.dead)
 						{
 							System.out.print("d ");
@@ -313,7 +326,7 @@ public class Personal1
 				if (entityAt(player.xPos - 1, player.yPos) && returnEntityAt(player.xPos - 1, player.yPos).dead == false)
 				{
 					//Attack enemy
-					player.attack(returnEntityAt(player.xPos - 1, player.yPos));
+					player.attack(returnEntityAt(player.xPos - 1, player.yPos), player);
 				}
 				else
 				{
@@ -333,7 +346,7 @@ public class Personal1
 				if (entityAt(player.xPos + 1, player.yPos) && returnEntityAt(player.xPos + 1, player.yPos).dead == false)
 				{
 					//Attack enemy
-					player.attack(returnEntityAt(player.xPos + 1, player.yPos));
+					player.attack(returnEntityAt(player.xPos + 1, player.yPos), player);
 				}
 				else
 				{
@@ -352,7 +365,7 @@ public class Personal1
 				if (entityAt(player.xPos, player.yPos - 1) && returnEntityAt(player.xPos, player.yPos - 1).dead == false)
 				{
 					//Attack enemy
-					player.attack(returnEntityAt(player.xPos, player.yPos - 1));
+					player.attack(returnEntityAt(player.xPos, player.yPos - 1), player);
 				}
 				else
 				{
@@ -371,7 +384,7 @@ public class Personal1
 				if (entityAt(player.xPos, player.yPos + 1) && returnEntityAt(player.xPos, player.yPos + 1).dead == false)
 				{
 					//Attack enemy
-					player.attack(returnEntityAt(player.xPos, player.yPos + 1));
+					player.attack(returnEntityAt(player.xPos, player.yPos + 1), player);
 				}
 				else
 				{
@@ -402,16 +415,19 @@ public class Personal1
 		//Print contents of current inventory
 		System.out.println("---------------------------------\n---------------------------------\n");
 		
-		System.out.println("(0)Weapon: " + player.weapon.name);
+		System.out.println("(0)Weapon: " + player.weapon.name + " || " + player.weapon.description);
 		System.out.println("(1)Head: ");
 		System.out.println("(2)Body: ");
 		System.out.println("(3)Leggings: ");
 		System.out.println("(4)Footware: ");
 		System.out.println("(5)Accessory: ");
+		System.out.println("---------------------------------");
+		player.printInventory();
+		
 		
 		//Give player options to do in inventory
 		Scanner sc = new Scanner(System.in);
-		System.out.println("Close inventory: c    Use Item: v       Change weapon: b          Change armour:  n");
+		System.out.println("Close inventory: c    Use Item: v       Change gear: b");
 		String input = sc.nextLine();
 		
 		//Switch case for input possibilities
@@ -425,17 +441,17 @@ public class Personal1
 			
 			//Open item inventory
 			case "v":
-				System.out.println("OPENING ITEM INVENTORY");
+				player.addToLog("OPENED CONSUMABLE INVENTORY", turnNumber);
 			break;
 			
-			//Open weapon inventory
+			//Open gear inventory
 			case "b":
-				System.out.println("OPENING WEAPON INVENTORY");
+				player.addToLog("OPENED GEAR INVENTORY", turnNumber);
 			break;
 			
-			//Open armour inventory
-			case "n":
-				System.out.println("OPENING ARMOUR INVENTORY");
+			//If not good input exit function
+			default:
+				player.addToLog("FAULTY INPUT FOR INVENTORY", turnNumber);
 			break;
 		}
 	}

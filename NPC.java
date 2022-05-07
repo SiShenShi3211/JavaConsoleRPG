@@ -1,21 +1,20 @@
+import java.util.ArrayList;
+
 public class NPC
 {
+	//Setting variables
+	Integer logMaxCount = 3;
+	
 	//Basic variables
-	String name;
-	Boolean controllable;
-	int[] stats;
-	int hp;
-	int maxHp;
-	int str;
-	int dex;
-	int def;
-	int inte;
-	int faith;
+	String name; boolean controllable;
+	int[] stats; int hp;
+	int maxHp; int str;
+	int dex; int def;
+	int inte; int faith;
 	boolean dead;
-	int xPos;
-	int yPos;
-	String race;
-	Weapon weapon;
+	int xPos; int yPos;
+	ArrayList<String> log; ArrayList<Integer> logIndexs;
+	String race; Weapon weapon;
 	
 	// If blank then generate basic player
 	public NPC()
@@ -34,6 +33,8 @@ public class NPC
 		this.def = 2;
 		this.race = "Human";
 		this.weapon = new Weapon("fists", "meele", new int[] {0,0,0,0}, new int[] {0,0,0,0});
+		this.log = new ArrayList<String>();
+		this.logIndexs = new ArrayList<Integer>();
 	}
 	
 	
@@ -48,11 +49,11 @@ public class NPC
 		this.maxHp = stats[1];
 		this.str = stats[2];
 		this.dex = stats[3];
-    this.def = stats[4];
+		this.def = stats[4];
 		this.xPos = pos[0];
 		this.yPos = pos[1];
 		this.dead = false;
-		this.weapon = new Weapon("claw", "meele", new int[] {0,0,0,0}, new int[] {0,0,0,0});
+		this.weapon = new Weapon("claw", "meele", new int[] {0,0,0,0}, new int[] {2,0,0,0});
 	}
 	
 	
@@ -87,7 +88,7 @@ public class NPC
 	
 	
 	//FUNCTION WHIH HANDLES PLAYER INPUT
-		public void move(String input, int[][] map, NPC player)
+		public void move(String input, int[][] map, PlayerObject player)
 		{
 			//add switch statement
 			switch (input)
@@ -102,7 +103,7 @@ public class NPC
 					//if player takes the space then attack player instead
 					if (player.xPos == this.xPos - 1 && player.yPos == this.yPos)
 					{
-						this.attack(player);
+						this.attack(player, player);
 					}
 					else
 					{
@@ -120,7 +121,7 @@ public class NPC
 					//if player takes the space then attack player instead
 					if (player.xPos == this.xPos + 1 && player.yPos == this.yPos)
 					{
-						this.attack(player);
+						this.attack(player, player);
 					}
 					else
 					{
@@ -140,7 +141,7 @@ public class NPC
 					//if player takes the space then attack player instead
 					if (player.xPos == this.xPos && player.yPos == this.yPos - 1)
 					{
-						this.attack(player);
+						this.attack(player, player);
 					}
 					else
 					{
@@ -158,7 +159,7 @@ public class NPC
 					//if player takes the space then attack player instead
 					if (player.xPos == this.xPos && player.yPos == this.yPos + 1)
 					{
-						this.attack(player);
+						this.attack(player, player);
 					}
 					else
 					{
@@ -176,7 +177,7 @@ public class NPC
 		}
 		
 		
-		public void attack(NPC defender)
+		public void attack(NPC defender, PlayerObject player)
 		{
 			//Str will handle the damage done
 			//Dex will handle evasion / accuracy
@@ -184,6 +185,7 @@ public class NPC
 			// calculate if hit or not (r > 1)
 		float rand = (int)((float)(Math.random() * 100));
 	    int defenceValue = 1;
+	    String output;
 	    
 	    
 			
@@ -193,12 +195,15 @@ public class NPC
 				int damage = calculateDamage(this) / defenceValue;
 				defender.takeDamage(damage);
 				System.out.println(this.name + " dealt " + damage + " to " + defender.name);
+				output = (this.name + " dealt " + damage + " to " + defender.name);
+				player.addToLog(output, Personal1.turnNumber);
 				
 				
 			}
 			else
 			{
-				System.out.println("Missed " + rand);
+				output = ("Missed " + rand);
+				player.addToLog(output, Personal1.turnNumber);
 			}
 			
 			//If meele attack then also make defender retaliate (DO NOT RECURSE FOR THE LOVE OF GOD)
@@ -206,7 +211,8 @@ public class NPC
 			{
 				int defDamage = calculateDamage(defender) / defenceValue;
 				this.takeDamage(defDamage);
-				System.out.println(defender.name + " dealt " + defDamage + " to " + this.name);
+				output = (defender.name + " dealt " + defDamage + " to " + this.name);
+				player.addToLog(output, Personal1.turnNumber);
 			}
 			
 			
@@ -247,6 +253,7 @@ public class NPC
 				this.weapon = weapon;
 			}
 		}
+		
 	
 	
 	
