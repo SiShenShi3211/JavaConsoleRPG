@@ -5,6 +5,8 @@
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
+import javax.lang.model.util.ElementScanner6;
+
 public class Personal1
 {
 	//Declare static variables, generally important
@@ -57,7 +59,8 @@ public class Personal1
 		
 		
 		//Prompt user to start the game
-		System.out.println("N: Hello Adventurer! Your name should be " + player.name + " if I am not mistaken!");
+		ScenePrefabs.printTitleScreen();
+		System.out.println("N: Hello Adventurer! Your name should be " + ScenePrefabs.colorText(ScenePrefabs.BLUE, player.name) + " if I am not mistaken!");
 		System.out.println("N: We are in dire need of your help, we must save the princess!");
 		Scanner sc = new Scanner(System.in);
 		System.out.println("Do you accept? (y/n)");
@@ -71,10 +74,13 @@ public class Personal1
 		}
 		
 		//if player says yes then start game
-		if (input.equals("y"))
+		else if (input.equals("y"))
 		{
 			System.out.println("N: Excellent, set fourth and lay blight upon the dark lord!");
 			renderFrame();
+		} else 
+		{
+			System.exit(1);
 		}
 		
 	}
@@ -134,7 +140,7 @@ public class Personal1
 		}else
 		{
 			//Make game over screen
-			printDeathScreen();
+			ScenePrefabs.printDeathScreen();
 		}
 		
 	}
@@ -182,7 +188,7 @@ public class Personal1
 					//RENDER ORDER > PLAYER > OTHER ENTITIES > TILE
 					if (player.xPos == x && player.yPos == y)
 					{
-						System.out.print("P ");
+						System.out.print(ScenePrefabs.colorText(ScenePrefabs.BLUE,"P "));
             occupied = true;
 						break;
 					}else if (entity != null && entity.xPos == x && entity.yPos == y)
@@ -190,11 +196,11 @@ public class Personal1
 						//if dead then print d otherwise print E
 						if (entity.dead)
 						{
-							System.out.print("d ");
+							System.out.print(ScenePrefabs.colorText(ScenePrefabs.BLACK,"d "));
 						}
 						else
 						{
-							System.out.print("E ");
+							System.out.print(ScenePrefabs.colorText(ScenePrefabs.RED, "E "));;
 						}
 						
 						occupied = true;
@@ -203,7 +209,7 @@ public class Personal1
 				}	
 
         //If no entity on tile then print
-				if (!occupied)
+		if (!occupied)
         {
           tilePrintHandle(map[x][y]);
         }
@@ -404,6 +410,9 @@ public class Personal1
 		case "i":
 			printInventory();
 			break;
+
+		case "q":
+			System.exit(0);
 			
 		}
 	}
@@ -485,25 +494,6 @@ public class Personal1
 		return new NPC(false, "N/A", new int[]{0,0,0,0,0}, new int[] {0,0});
 	}
 	
-	//Function which prints death screen
-	public static void printDeathScreen()
-	{
-		System.out.println("**    **    ****      **    **");
-		System.out.println(" **  **    **  **     **    **");
-		System.out.println("   **      **  **      **  ** ");
-		System.out.println("   **       ****        **** ");
-		
-		System.out.print("\n \n \n");
-		
-		System.out.println("*****       ****     *******    *****");
-		System.out.println("**  **       **      **         **  **");
-		System.out.println("**  **       **      *******    **  **");
-		System.out.println("**  **       **      **         **  **");
-		System.out.println("*****       ****     *******    ***** \n \n");
-		
-		System.out.println("Run lasted " + turnNumber + " turns.");
-		
-		
-	}
+	
 }
 
