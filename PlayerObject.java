@@ -57,7 +57,26 @@ public class PlayerObject extends NPC {
 			public void printInventory() {
 				
 				for (int i = 0; i < this.inventory.size(); i++) {
-					System.out.println(i + ": " + this.inventory.get(i).getName());
+					String typeName = this.inventory.get(i).getType();
+
+
+					//Give each item type a different color
+					switch (this.inventory.get(i).getType())
+					{
+						case "weapon":
+							typeName = ScenePrefabs.colorText(ScenePrefabs.RED, ("weapon"));
+							break;
+						case "armour":
+							typeName = ScenePrefabs.colorText(ScenePrefabs.BLUE, ("armour"));
+							break;
+						case "consumable":
+							typeName = ScenePrefabs.colorText(ScenePrefabs.GREEN, ("consumable"));
+							break;
+
+					}
+
+
+					System.out.println(ScenePrefabs.colorText(ScenePrefabs.YELLOW, (i + ": "))+ this.inventory.get(i).getName() + " $ " + typeName);
 				}
 			}
 }

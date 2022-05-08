@@ -5,8 +5,6 @@
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
-import javax.lang.model.util.ElementScanner6;
-
 public class Personal1
 {
 	//Declare static variables, generally important
@@ -27,15 +25,26 @@ public class Personal1
 			{0,0,0,1,1,0,1,1,1,1,0,1,1,0,0,0},
 			{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
 			{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+			{0,0,1,1,0,0,0,1,1,0,0,0,1,1,0,0},
+			{0,0,1,1,0,0,0,1,1,0,0,0,1,1,0,0},
+			{0,0,1,1,0,0,0,1,1,0,0,0,1,1,0,0},
+			{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+			{0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0},
+			{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+			{0,0,1,1,0,0,0,1,1,0,0,0,1,1,0,0},
+			{0,0,1,1,0,0,0,1,1,0,0,0,1,1,0,0},
+			{0,0,1,1,0,0,0,1,1,0,0,0,1,1,0,0},
+			{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+			{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+			{0,0,0,1,1,0,1,1,1,1,0,1,1,0,0,0},
+			{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+			{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
 	};
-	public static NPC[] entities = new NPC[10];
+	public static NPC[] entities = new NPC[15];
 	public static PlayerObject player = new PlayerObject();
 	public static int turnNumber = 0;
 	public static void main(String[] args)
 	{
-		//Notes: NPC class is in order [controllable?, name, stats[hp, maxhp, str, dex], position[x,y]]
-		
-		//Notes: Weapon class is in order [Name, Type, req[str, dex, int, fth], damage[str, dex, int, fth] ]
 		
 		
 		//Test weapon
@@ -60,6 +69,8 @@ public class Personal1
 		
 		//Prompt user to start the game
 		ScenePrefabs.printTitleScreen();
+
+		System.out.print("\033[48;2;0;0;0m");
 		System.out.println("N: Hello Adventurer! Your name should be " + ScenePrefabs.colorText(ScenePrefabs.BLUE, player.name) + " if I am not mistaken!");
 		System.out.println("N: We are in dire need of your help, we must save the princess!");
 		Scanner sc = new Scanner(System.in);
@@ -77,6 +88,13 @@ public class Personal1
 		else if (input.equals("y"))
 		{
 			System.out.println("N: Excellent, set fourth and lay blight upon the dark lord!");
+			// wait(3);
+			// System.out.print("N: Little did our hero know that they were doomed.");
+			// wait(1);
+			// System.out.print(".");
+			// wait(1);
+			// System.out.print(".");
+			// wait(1);
 			renderFrame();
 		} else 
 		{
@@ -92,7 +110,7 @@ public class Personal1
 	public static void renderFrame()
 	{
 		//Top wall
-		System.out.println("\n---------------------------------");
+		System.out.println("\n-------------------------------------------------------------");
 		
 		//Increase turn #
 		turnNumber++;
@@ -104,7 +122,7 @@ public class Personal1
 		//print log
 		
 		//Bottom Wall
-		System.out.println("---------------------------------");
+		System.out.println("-------------------------------------------------------------");
 		
 		// render map
 		renderMap();
@@ -122,7 +140,7 @@ public class Personal1
 				handlePlayerInput(input);
 		
 		//End with 2 blocks of # for outline
-		System.out.println("\n---------------------------------\n---------------------------------\n");
+		System.out.println("\n-------------------------------------------------------------\n-------------------------------------------------------------\n");
 		
 		
 		
@@ -153,7 +171,7 @@ public class Personal1
 		
 		
 		//End with 2 blocks of # for outline
-		System.out.println("---------------------------------\n---------------------------------\n");
+		System.out.println("-------------------------------------------------------------\n-------------------------------------------------------------\n");
 		
 		//print out stats
 		System.out.print("HP: " + player.hp + "/" + player.maxHp + "\n");
@@ -173,12 +191,13 @@ public class Personal1
 	{
 		//write logic to print player
 		//print each layer and then \n at the end of the
-		for (int y = 0; y < map.length; y++)
+		for (int y = 0; y < map[0].length; y++)
 		{
 			//for each tile
-			for (int x = 0; x < map[0].length; x++)
+			for (int x = 0; x < map.length; x++)
 			{
-				
+				//set color of console (0,0,0 == r,g,b)
+				System.out.print("\033[48;2;0;0;0m");
 				//Check entity list if they meet there
 				boolean occupied = false;
         //Check if entity is on tile
@@ -235,12 +254,12 @@ public class Personal1
 		{
 		//Empty tile
 		case 0:
-			System.out.print("  ");
+			System.out.print("░ ");
 			break;
 		
 		case 1:
 			
-			System.out.print("# ");
+			System.out.print(ScenePrefabs.colorText(ScenePrefabs.WHITE, "█ "));
 			break;
 		}
 	}
@@ -346,7 +365,7 @@ public class Personal1
 			// RIGHT MOVEMENT
 		case "d":
 			//IF EMPTY MOVE RIGHT
-			if (player.xPos < map[0].length - 1 && map[player.xPos + 1][player.yPos] == 0 )
+			if (player.xPos < map.length - 1 && map[player.xPos + 1][player.yPos] == 0 )
 			{
 				//Check for entity and if dead
 				if (entityAt(player.xPos + 1, player.yPos) && returnEntityAt(player.xPos + 1, player.yPos).dead == false)
@@ -422,7 +441,7 @@ public class Personal1
 	public static void printInventory()
 	{
 		//Print contents of current inventory
-		System.out.println("---------------------------------\n---------------------------------\n");
+		System.out.println("-------------------------------------------------------------\n-------------------------------------------------------------\n");
 		
 		System.out.println("(0)Weapon: " + player.weapon.name + " || " + player.weapon.description);
 		System.out.println("(1)Head: ");
@@ -430,7 +449,7 @@ public class Personal1
 		System.out.println("(3)Leggings: ");
 		System.out.println("(4)Footware: ");
 		System.out.println("(5)Accessory: ");
-		System.out.println("---------------------------------");
+		System.out.println("-------------------------------------------------------------");
 		player.printInventory();
 		
 		
@@ -492,6 +511,14 @@ public class Personal1
 		}
 		System.out.println("ERROR: ENTITY NOT FOUND, INSTANCE CREATED");
 		return new NPC(false, "N/A", new int[]{0,0,0,0,0}, new int[] {0,0});
+	}
+
+
+	//function that handles waiting in seconds
+	public static void wait(int time)
+	{
+		try{Thread.sleep(time * 1000);} 
+		catch(InterruptedException ex){Thread.currentThread().interrupt();}
 	}
 	
 	

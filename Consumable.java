@@ -16,6 +16,7 @@ public class Consumable extends Item {
 		this.description = desc;
 		this.effect = effect;
 		this.uses = uses;
+		this.type = "consumable";
 	}
 	
 	public void use()

@@ -28,7 +28,7 @@ public class NPC
 		this.inte = 4;
 		this.faith = 2;
 		this.dead = false;
-		this.xPos = 4;
+		this.xPos = 20;
 		this.yPos = 5;
 		this.def = 2;
 		this.race = "Human";
@@ -87,7 +87,7 @@ public class NPC
 	
 	
 	
-	//FUNCTION WHIH HANDLES PLAYER INPUT
+	//FUNCTION FOR NPC MOVE
 		public void move(String input, int[][] map, PlayerObject player)
 		{
 			//add switch statement
@@ -116,7 +116,7 @@ public class NPC
 				// RIGHT MOVEMENT
 			case "d":
 				//IF EMPTY MOVE RIGHT
-				if (this.xPos < map[0].length - 1 && map[this.xPos + 1][this.yPos] == 0 )
+				if (this.xPos < map.length - 1 && map[this.xPos + 1][this.yPos] == 0 )
 				{
 					//if player takes the space then attack player instead
 					if (player.xPos == this.xPos + 1 && player.yPos == this.yPos)
@@ -128,8 +128,7 @@ public class NPC
 						this.xPos += 1;
 					}
 					
-				}		
-				break;
+				}
 				
 				
 				// FORWARD MOVEMENT

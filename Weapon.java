@@ -16,6 +16,7 @@ public class Weapon extends Item {
 		this.name = name; this.type = type;
 		this.canPickUp = true;
 		this.description = "";
+		this.type = "weapon";
 		
 		//State attributes
 		this.pDamage = damageType[0]; this.rDamage = damageType[1]; 

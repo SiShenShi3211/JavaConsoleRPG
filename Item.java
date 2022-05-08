@@ -27,6 +27,11 @@ public abstract class Item implements ItemInteract {
 	{
 		return this.name;
 	}
+	public String getType()
+	{
+		return this.type;
+	}
+
 	
 	
 	
