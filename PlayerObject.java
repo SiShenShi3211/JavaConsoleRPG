@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Scanner;
 public class PlayerObject extends NPC {
 	
 	public ArrayList<Item> inventory;
@@ -10,10 +11,7 @@ public class PlayerObject extends NPC {
 		this.inventory = new ArrayList<Item>();
 		
 		//Adding these weapons to test the inventory system
-		this.inventory.add(new Weapon("Test Weapon", "meele", new int[] {1,1, 1, 1}, new int[] {5, 0, 0,0} ));
-		this.inventory.add(new Weapon("Test Weapon", "meele", new int[] {1,1, 1, 1}, new int[] {5, 0, 0,0} ));
-		this.inventory.add(new Weapon("Test Weapon", "meele", new int[] {1,1, 1, 1}, new int[] {5, 0, 0,0} ));
-		this.inventory.add(new Weapon("Test Weapon", "meele", new int[] {1,1, 1, 1}, new int[] {5, 0, 0,0} ));
+		this.inventory.add(new Weapon("Rusted Sword", "meele", new int[] {1,1, 1, 1}, new int[] {2, 0, 0,0} ));
 	}
 	
 	
@@ -70,7 +68,8 @@ public class PlayerObject extends NPC {
 							typeName = ScenePrefabs.colorText(ScenePrefabs.BLUE, ("armour"));
 							break;
 						case "consumable":
-							typeName = ScenePrefabs.colorText(ScenePrefabs.GREEN, ("consumable"));
+							Consumable consumable = (Consumable)this.inventory.get(i);
+							typeName = ScenePrefabs.colorText(ScenePrefabs.GREEN, ("consumable (" + (consumable.getUses()) + ")"));
 							break;
 
 					}
@@ -78,5 +77,100 @@ public class PlayerObject extends NPC {
 
 					System.out.println(ScenePrefabs.colorText(ScenePrefabs.YELLOW, (i + ": "))+ this.inventory.get(i).getName() + " $ " + typeName);
 				}
+			}
+
+			//Function to equip a new weapon
+			public void handleEquip(int index)
+			{
+				//If out of bounds warn player and return
+				if (index < 0 || index > this.inventory.size() - 1)
+				{
+					this.addToLog("Invalid Gear Index", Personal1.turnNumber);
+					return;
+				}
+
+				Item selectedItem = this.inventory.get(index);
+
+				//check for type of item, must be "weapon"
+				if (!selectedItem.type.equals("weapon") && !selectedItem.type.equals("armour"))
+				{
+					this.addToLog("Selected item is not equipable", Personal1.turnNumber);
+					return;
+				}
+
+				//At this point we can replace the item we are holding with whatever
+
+				//Weapon implementation
+				if (selectedItem.type.equals("weapon"))
+				{
+					//if we are currently holding fists just equip the weapon
+					if (this.weapon.name.equals("fists"))
+					{
+						this.equipWeapon((Weapon) selectedItem);
+						this.inventory.remove(index);
+						return;
+					}
+
+					//otherwise replace the weapon we have
+					this.inventory.set(index, this.weapon);
+					this.weapon = (Weapon) selectedItem;
+					return;
+
+				}
+
+				//Armour implementation
+			}
+
+
+			public void handleConsume(int index)
+			{
+				//If out of bounds warn player and return
+				if (index < 0 || index > this.inventory.size() - 1)
+				{
+					this.addToLog("Invalid Item Index", Personal1.turnNumber);
+					return;
+				}
+
+				Item selectedItem = this.inventory.get(index);
+
+				//check for type of item, must be "weapon"
+				if (!selectedItem.type.equals("consumable"))
+				{
+					this.addToLog("Selected item is not a consumable", Personal1.turnNumber);
+					return;
+				}
+
+				//If all checks are ok then use item
+				Consumable consumable = (Consumable) selectedItem;
+				Scanner sc = new Scanner(System.in);
+				String input;
+
+				if (consumable.getUses() > 0)
+				{
+						//Make sure the player wants it
+					System.out.println("Are you sure you want to use");
+					System.out.println(ScenePrefabs.colorText(ScenePrefabs.BLUE, consumable.name + " || " + consumable.description));
+					System.out.print("(Y/n): ");
+
+					input = sc.nextLine();
+
+					//Use if player is certain
+					if (input.equals("y") || input.equals("Y") || input.equals(""))
+						consumable.use();
+				}else
+				{
+
+					//if no more uses offer to remove the item from the player's inventory
+					System.out.println(ScenePrefabs.colorText(ScenePrefabs.RED, consumable.name + " has no more uses!"));
+					System.out.println("Drop item?");
+					System.out.print("(Y/n): ");
+
+					input = sc.nextLine();
+
+					//Use if player is certain
+					if (input.equals("y") || input.equals("Y") || input.equals(""))
+						Personal1.player.inventory.remove(index);
+				}
+				
 			}
 }

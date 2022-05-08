@@ -9,13 +9,16 @@ public class Weapon extends Item {
 	//Sub variables not put in as direct variables
 	int strReq; int dexReq; int intReq; int faithReq;
 	int pDamage; int rDamage; int mDamage; int fDamage;
+
+	String weaponType;
 	
-	public Weapon(String name, String type, int[] req, int[] damageType)
+	public Weapon(String name, String weaponType, int[] req, int[] damageType)
 	{
 		//Basic attributes
-		this.name = name; this.type = type;
+		this.name = name;
 		this.canPickUp = true;
 		this.description = "";
+		this.weaponType = weaponType;
 		this.type = "weapon";
 		
 		//State attributes

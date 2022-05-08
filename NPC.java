@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 
-public class NPC
+public class NPC extends Entity
 {
 	//Setting variables
 	Integer logMaxCount = 3;
@@ -12,7 +12,6 @@ public class NPC
 	int dex; int def;
 	int inte; int faith;
 	boolean dead;
-	int xPos; int yPos;
 	ArrayList<String> log; ArrayList<Integer> logIndexs;
 	String race; Weapon weapon;
 	
@@ -206,7 +205,7 @@ public class NPC
 			}
 			
 			//If meele attack then also make defender retaliate (DO NOT RECURSE FOR THE LOVE OF GOD)
-			if (this.weapon.type.equals("meele"))
+			if (this.weapon.weaponType.equals("meele"))
 			{
 				int defDamage = calculateDamage(defender) / defenceValue;
 				this.takeDamage(defDamage);

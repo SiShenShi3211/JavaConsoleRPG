@@ -18,14 +18,39 @@ public class Consumable extends Item {
 		this.uses = uses;
 		this.type = "consumable";
 	}
+
+	public int getUses()
+	{
+		return this.uses;
+	}
 	
 	public void use()
 	{
+		//Make sure the item has uses left in order to use it
 		if (this.uses > 0)
 		{
-			
+			//Subtract uses
+			this.uses--;
+			// Make item do effect
+			this.doEffect();
+		}else
+		{
+			return;
 		}
-		//Get rid of this item
+	}
+
+	private void doEffect()
+	{
+		//First letter is always the status of consumable
+		String effect = this.effect.substring(0, 1);
+		int amount = (int)Integer.parseInt(this.effect.substring(1));
+
+		switch (effect)
+		{
+			case "h":
+				Personal1.player.heal(amount);
+				break;
+		}
 	}
 
 }

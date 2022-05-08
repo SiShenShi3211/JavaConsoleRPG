@@ -1,4 +1,4 @@
-public abstract class Item implements ItemInteract {
+public abstract class Item extends Entity implements ItemInteract {
 	//We want this class to be abstract because I don't want any objects to be assigned its type
 	//Things every item should have:
 	String name;
