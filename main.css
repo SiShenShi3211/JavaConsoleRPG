@@ -1,0 +1,547 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@300&display=swap');
+*
+{
+    margin: 0;
+    padding: 0;
+}
+
+body
+{
+    background-color: rgb(43, 45, 54);
+    font-family: 'Nunito', sans-serif;
+    color: rgb(245, 245, 245);
+    overflow-x: hidden;
+}
+
+::-webkit-scrollbar
+{
+    width: 5px;
+    background-color: rgb(8, 8, 12);
+}
+
+::-webkit-scrollbar-thumb
+{
+    background: rgb(61, 60, 70);
+    border-radius: 5px;
+}
+
+a{
+    text-decoration: none;
+    color: rgb(245, 245, 245);
+}
+
+header
+{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 30px 10%;
+    box-shadow: 0px 0px 5px black;
+    
+}
+
+textarea
+{
+    resize: none;
+}
+
+.logo
+{
+    cursor: pointer;
+}
+
+.nav_links
+{
+    list-style: none;
+}
+
+.nav_links li
+{
+    display: inline-block;
+    padding: 0 15px;
+    cursor: pointer;
+}
+
+.nav_links li a
+{
+    transition: all 0.3s ease 0s;
+}
+
+.nav_links li a:hover
+{
+    color: chocolate;
+}
+
+.nav_links li a:active
+{
+    color: rgb(174, 219, 255);
+}
+
+
+.highlight
+{
+    padding: 5px;
+    border-radius: 50px;
+    color: black;
+    font-size: 1rem;
+    transition: all 0.3s ease 0s;
+    cursor: pointer;
+}
+
+
+button, #submit, .highlight
+{
+    padding: 5px;
+    border-radius: 50px;
+    transition: all 0.3s ease 0s;
+    cursor: pointer;
+    font-size: 1rem;
+    background-color: rgb(43, 45, 54);
+    color:white;
+    border: solid 1px white;
+}
+
+button:hover, #submit:hover, .highlight:hover
+{
+    background-color: rgb(43, 45, 54);
+    color:rgb(174, 219, 255);
+    border: solid 1px rgb(174, 219, 255);
+    transform: scale(1.05);
+}
+
+#header-button:hover
+{
+    color:white;
+}
+
+#submit
+{
+    margin: 10px 0px;
+}
+
+
+.contact-block
+{
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    width: 400px;
+    justify-content: space-between;
+    background-color: rgb(34, 36, 43);
+    box-shadow: black 0px 0px 5px;
+}
+
+
+
+.contact-block input,textarea
+{
+    background-color: rgb(34, 36, 43);
+    border: solid 2px rgb(25, 26, 29);
+    color: white;
+    border-radius: 5px;
+}
+
+.contact-block label
+{
+    background-color: rgb(34, 36, 43);
+    color: white;
+    border: none;
+}
+
+.contact-block input
+{
+    margin-bottom: 20px;
+}
+
+
+.flex-block
+{
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 100%;
+    margin-top: 1.5rem;
+    
+}
+
+.col
+{
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.about p
+{
+    width: 75%;
+    font-size: 1.2rem;
+    line-height: 2rem;
+}
+
+.about h1
+{
+ padding-bottom: 1rem;
+ font-size: 3rem;
+}
+
+.flex-block-header
+{
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 100%;
+    background-color: rgb(38, 42, 51);
+    background-image: linear-gradient(90deg, rgb(38, 42, 51) 40%, rgb(20, 27, 36));
+    padding: 15px 0px;
+    box-shadow: 0px 0px 5px black;
+    margin: 0px;
+    
+}
+
+
+#content
+{
+    margin: 5rem .5rem;
+    min-height: 70vh;
+    
+}
+
+.textblock
+{
+    box-shadow: 0px 0px 5px black;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+footer
+{
+    width: 100%;
+    height: auto;
+    background-image: linear-gradient(180deg, rgb(20, 21, 26), rgb(10, 11, 14));
+    box-shadow: black 0px 1px 5px;
+}
+
+#heading
+{
+    padding-right: 10%;
+}
+
+#heading button
+{
+    background-color: rgb(105, 119, 170);
+    border: none;
+    border-radius: 5px;
+    box-shadow: black 0px 0px 5px;
+}
+
+#heading button:hover
+{
+    background-color: rgb(116, 131, 187);
+    border: none;
+    border-radius: 5px;
+    transform:scale(1.05);
+}
+
+#heading h1
+{
+    font-size: 4rem;
+}
+
+#heading h3, p, h4
+{
+    color: rgb(190, 192, 197);
+}
+
+#heading p
+{
+    position: relative;
+    margin-top: 10px;
+    width: 80%;
+}
+
+.headerImg{
+    width:300px;
+    height:300px;
+    background-image: url("williamS.jpg");
+    background-size:cover;
+    background-position:center;
+    border-radius: 50%;
+    transition: all 0.3s ease 0s;
+    transform:scale(1.2);
+  }
+
+  #imgContainer
+  {
+      width: 300px;
+      height: 300px;
+      border-radius: 50%;
+      overflow: hidden;
+      box-shadow: black 0px 0px 20px;
+  }
+
+  .headerImg:hover
+  {
+    transform:scale(1.25);
+  }
+
+  .stat
+  {
+    width: 400px;
+    height: 25px;
+    background-color:rgb(26, 29, 36);
+    margin: 10px 5px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    margin-right: 20px;
+    align-items: center;
+    box-shadow: black 0px 0px 5px;
+    transition: all 0.3s ease 0s;
+  }
+
+  .stat:hover
+  {
+    background-color:rgb(32, 37, 48);
+    transform: scale(1.05); 
+  }
+
+  .stat-block
+  {
+      background-color: none;
+  }
+
+  .progress-container
+  {
+     background-color: gray; 
+     height: 10px;
+     width: 250px;
+     border-radius: 5px;
+  }
+
+  .progress-container:hover
+  {
+      background-color: rgb(135, 134, 141);
+      
+  }
+
+  .progress-color
+  {
+      position: relative;
+      height: 100%;
+      
+      background-image: linear-gradient(90deg, rgb(84, 30, 210), rgb(47, 10, 134));
+      border-radius: 5px;
+  }
+
+  .start-up
+  {
+      align-items: flex-start;
+  }
+
+  .pop:hover
+  {
+    transform: scale(1.05);
+    cursor: pointer;
+  }
+
+  .shadow
+  {
+      padding: 10px;
+      box-shadow: 0px 0px 5px black;
+  }
+
+  .light-hover-p, .pop
+  {
+    transition: all 0.3s ease 0s;
+  }
+
+  .light-hover-p p:hover
+  {   
+      color: white;
+  }
+
+  .dark-b
+  {
+      background-color: rgb(26, 29, 36);
+  }
+
+  .blue-hover:hover
+  {
+    color: rgb(105, 119, 170);
+  }
+
+  .square-flex
+  {
+      display: flex;
+      flex-wrap: wrap;
+  }
+
+  .square-flex
+  {
+      display: flex;
+      flex-wrap: wrap;
+      width: 250px;
+      height: 250px;
+      background-color: aqua;
+  }
+
+  .invisible-text p
+  {
+    position: relative;
+    text-align: center;
+    vertical-align: middle;
+    line-height: 350px; 
+    font-size: 2.5rem;
+    color: rgba(0,0,0,0);
+    transition: all .3s ease 0s;
+  }
+
+  
+  .invisible-text:hover p
+  {
+      font-size: 4rem;
+      color: white;
+  }
+
+  .slider
+  {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    white-space: nowrap;
+    overflow-y: hidden;
+    background-color: rgb(31, 35, 43);
+    justify-content: flex-start;
+    box-shadow: 0px 0px 5px black;
+    width: 100%;
+    height: auto;
+  }
+
+  .slide
+  {
+    height: 350px;
+    display: inline-block;
+    padding: 25px;
+    min-width: 700px;
+    margin: 15px;
+    background-color: rgb(26, 29, 36);
+    border-radius: 15px;
+    
+  }
+  .timeline
+  {
+      padding: 15px 5px;
+      padding-bottom: 70px;
+  }
+  .timeline li{
+    padding-bottom: 2.5rem;
+    border-left: 1px solid #abaaed;
+    position: relative;
+    padding-left: 20px;
+    margin-left: 10px;
+    transition: all .3s ease 0s;
+    
+    
+    
+  }
+  .timeline li:last-child
+  {
+    border: 0px;
+    padding-bottom: 0;
+  }
+
+  .timeline li:before
+  {
+    content: '';
+    width: 15px;
+    height: 15px;
+    background: white;
+    border: 1px solid #4e5ed3;
+    box-shadow: 3px 3px 0px #bab5f8;
+    box-shadow: 3px 3px 0px #bab5f8;
+    border-radius: 50%;
+    position: absolute;
+    left: -10px;
+    top: 0px;
+    transition: all .3s ease 0s;
+  }
+
+  .timeline li:hover::before
+  {
+    background: rgb(178, 147, 228);
+    border: 1px solid #7540bb;
+    transform: scale(1.5);
+  }
+
+  .timeline li:hover
+  {
+      cursor: pointer;
+      color: rgb(255, 169, 112);
+  }
+
+  .slide1
+  {
+      background-image: linear-gradient(0deg, rgba(0,0,0,.9), rgba(0,0,0,.5)), url("WebDevImage.png");
+      background-size: cover;
+  }
+
+  .slide2
+  {
+    background-image: linear-gradient(0deg, rgba(0,0,0,.9), rgba(0,0,0,.5)), url("UnityImg.png");
+    background-size: cover; 
+  }
+
+  .slide3
+  {
+    background-image: linear-gradient(0deg, rgba(0,0,0,.9), rgba(0,0,0,.5)), url("3dModelImg.jpg");
+    background-size: cover; 
+  }
+
+  .project1
+  {
+    background-image: linear-gradient(0deg, rgba(0,0,0,.9), rgba(0,0,0,.5)), url("DataScienceImg.jpg");
+    background-size: cover; 
+    background-position:center;
+  }
+
+  .project2
+  {
+    background-image: linear-gradient(0deg, rgba(0,0,0,.9), rgba(0,0,0,.5)), url("ReactImg.png");
+    background-size: cover; 
+    background-position:center;
+  }
+
+  .project3
+  {
+    background-image: linear-gradient(0deg, rgba(0,0,0,.9), rgba(0,0,0,.5)), url("JavaImg.jpg");
+    background-size: cover; 
+    background-position:center;
+  }
+
+  a h1{
+      transition: all .3s ease 0s;
+  }
+
+  a h1:hover{
+    color:chocolate;
+  }
+
+  .slide 
+  {
+    text-align: center; 
+    line-height: 300px;
+  }
+
+  .project_pic
+  {
+    width: 400px;
+    height: 400px
+  }
