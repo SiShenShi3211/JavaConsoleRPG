@@ -52,10 +52,8 @@ public class Personal1
 	public static int turnNumber = 0;
 	public static void main(String[] args)
 	{
-		System.out.println("TEST");
 		gameMap.generateDungeon();
 		map = gameMap.tiles;
-		System.out.println("TEST2");
 
 		
 		//Test weapon
@@ -68,9 +66,9 @@ public class Personal1
 		testItem.pickUp();
 		
 		//temporary enemies
-		// entities[0] = new NPC(false, "ghost", new int[]{3,3,2,6, 1}, new int[] {12,8});
-		// entities[2] = new NPC(false, "Goblin", new int[]{10,10,8,1, 4}, new int[] {0,3});
-		// entities[3] = new NPC(false, "Skeleton", new int[]{4,4,5,3, 3}, new int[] {4,10});
+		entities[0] = new NPC(false, "ghost", new int[]{3,3,2,6, 1}, new int[] {12,8});
+		entities[2] = new NPC(false, "Goblin", new int[]{10,10,8,1, 4}, new int[] {0,3});
+		entities[3] = new NPC(false, "Skeleton", new int[]{4,4,5,3, 3}, new int[] {4,10});
 		
 		//Player
 		entities[1] = player;

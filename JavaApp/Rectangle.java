@@ -8,13 +8,13 @@ public class Rectangle {
     public Rectangle()
     {
         //random offset from center, has to be on the left and right of point
-        int x = ((int)(-(Math.random() * 4) - 3));
-        int y = ((int)(-(Math.random() * 4) - 3));
+        int x = ((int)(-(Math.random() * 4) - 1));
+        int y = ((int)(-(Math.random() * 4) - 1));
 
 
         //width and height = touching center + (>||<) same length opposite
-        this.width = -(x * 2) + ((int)(Math.random() * 5) - 2);
-        this.height = -(y * 2) + ((int)(Math.random() * 5) - 2);
+        this.width = -(x * 2) + ((int)(Math.random() * 7) - 4);
+        this.height = -(y * 2) + ((int)(Math.random() * 7) - 4);
 
         this.position = new Vector2(x, y);
 
