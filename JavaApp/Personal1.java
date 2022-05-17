@@ -277,6 +277,54 @@ public class Personal1
 		case 2:
 		System.out.print("  ");
 			break;
+		
+		case 3:
+		System.out.print("D ");
+			break;
+		
+		case 4:
+		System.out.print("L ");
+			break;
+		
+		case 10:
+		System.out.print("0 ");
+			break;
+			
+		case 11:
+		System.out.print("1 ");
+			break;
+			
+		case 12:
+		System.out.print("2 ");
+			break;
+
+		case 13:
+		System.out.print("3 ");
+			break;
+			
+		case 14:
+		System.out.print("4 ");
+			break;
+			
+		case 15:
+		System.out.print("5 ");
+			break;
+
+		case 16:
+		System.out.print("6 ");
+			break;
+			
+		case 17:
+		System.out.print("7 ");
+			break;
+			
+		case 18:
+		System.out.print("8 ");
+			break;
+
+		default:
+		System.out.print("? ");
+			break;
 		}
 	}
 	

@@ -26,4 +26,9 @@ public class RoomCluster {
     {
         this.tiles.add(new Vector2(x, y));
     }
+
+    public Vector2 getRandomTileFromCluster()
+    {
+        return this.tiles.get((int)(Math.random() * this.tiles.size()));
+    }
 }

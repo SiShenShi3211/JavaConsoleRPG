@@ -9,7 +9,7 @@ public class Map {
     int width;
     int height;
     int[][] tiles;
-    RoomCluster[] roomClusters;
+    ArrayList<RoomCluster> roomClusters;
 
     public Map()
     {
@@ -71,33 +71,82 @@ public class Map {
             }
         }
 
-        //DEBUG: for right now just replace the center of room with a wall so we can see where each room center spawns
-        for (int i = 0; i < rooms.length; i++)
-        {
-            this.tiles[rooms[i].position.x][rooms[i].position.y] = 1;
-            //Personal1.player.addToLog("" + this.tiles[0][0], Personal1.turnNumber);
-        }
-
-
         //After everything is placed lets generate room clusters
-        this.roomClusters = new RoomCluster[rooms.length];
+        this.roomClusters = new ArrayList<RoomCluster>();
         generateClusters();
+
+        //Generate paths between rooms
+        generateDoors();
 
     }
 
+    private void generateDoors()
+    {
+        //Current implementation
+        /* 
+        1. Iterate through each cluster
+        2. Pick how many doors (1-3), make sure index not beyond cluster length
+        3. Draw line between random tile in current to selected cluster
+        4. Repeat to forward (dont draw to backward rooms) only.
+        */
+
+        //1.
+
+        for (int i = 0; i < this.roomClusters.size() - 1; i++)
+        {
+            //2.
+            //Here we take 3 if there is enough otherwise less
+            int maxPosDoors = Math.min(Math.max(1, i - this.roomClusters.size()), 2);
+
+            //Select random number of max
+            int doorAmount = (int)(Math.random() * maxPosDoors - 1) + 1;
+
+            //3.
+            for (int j = 1; j <= doorAmount; j++)
+            {
+                if (i + j < this.roomClusters.size())
+                {
+                    try
+                    {
+                        addLine(this.roomClusters.get(i).getRandomTileFromCluster(), this.roomClusters.get(i + j).getRandomTileFromCluster());
+                    }catch(Exception e)
+                    {
+                        Personal1.player.addToLog("Error in line gen", Personal1.turnNumber);
+                    }
+                }
+            }
+
+            //addLine(this.roomClusters.get(0).getRandomTileFromCluster(), this.roomClusters.get(1).getRandomTileFromCluster());
+            //addLine(this.roomClusters.get(1).getRandomTileFromCluster(), this.roomClusters.get(2).getRandomTileFromCluster());
+        }
+    }
+
+    private void addLine(Vector2 start, Vector2 end)
+    {
+        //Go in horizontal + vertical in increments of one until end
+        while (start.x != end.x || start.y != end.y)
+        {
+            //Draw on current selected tile
+            
+            if(start.x > end.x){start.x--;this.tiles[start.x][start.y] = 0;}
+            if(start.y > end.y){start.y--;this.tiles[start.x][start.y] = 0;}
+            if(start.x < end.x){start.x++;this.tiles[start.x][start.y] = 0;}
+            if(start.y < end.y){start.y++;this.tiles[start.x][start.y] = 0;}
+        }
+    }
 
     private void generateClusters()
     {
-        //Init each cluster
-        for(int i = 0 ; i < this.roomClusters.length; i++)
-        {
-            this.roomClusters[i] = new RoomCluster();
-        }    
 
         //search through map to find ground tile
         int clusterIndex = 0;
         for (int x = 0; x < this.tiles.length; x++){
             for (int y = 0; y < this.tiles[x].length; y++){
+                //add blank cluster if our index is equal to the size
+                if (clusterIndex >= this.roomClusters.size())
+                {
+                    this.roomClusters.add(new RoomCluster());
+                }
                 //if tile is not nothing
                 if (this.tiles[x][y] != 2)
                 {
@@ -112,29 +161,18 @@ public class Map {
 
             }
         }
-
-        //After clusters are generated log the length in console so we can see if its right
-        Personal1.player.addToLog("cluster 1 size: " + this.roomClusters[0].tiles.size(), Personal1.turnNumber);
-
-        //debug on first cluster
-        for (Vector2 tile : this.roomClusters[0].tiles)
-        {
-            this.tiles[tile.x][tile.y] = 1;
-        }
     }
 
     //Selects tile within cluster and recursivly adds neighboring tiles
     private void addCluster(int x, int y, int clusterIndex)
-    {
-        if (clusterIndex >= this.roomClusters.length)
-        {
-            Personal1.player.addToLog("cluster index: " + clusterIndex + " exceedes limit of " + this.roomClusters.length, Personal1.turnNumber);
-            return;
-        }
+    { 
+
         //Add current tile if not within cluster
-        if (!this.roomClusters[clusterIndex].containsTile(x, y) && x > 0 && x < this.width && y > 0 && y < this.height && this.tiles[x][y] != 2)
+        if (!this.roomClusters.get(clusterIndex).containsTile(x, y) && x >= 0 && x < this.width && y >= 0 && y < this.height && this.tiles[x][y] != 2)
         {
-            this.roomClusters[clusterIndex].addTile(x, y);
+            this.tiles[x][y] = 0;
+                
+            this.roomClusters.get(clusterIndex).addTile(x, y);
         }else {
             //Return if we see an existing tile so we dont go inf
             return;

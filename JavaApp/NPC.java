@@ -4,7 +4,7 @@ import java.util.ArrayList;
 public class NPC extends Entity
 {
 	//Setting variables
-	Integer logMaxCount = 3;
+	Integer logMaxCount = 10;
 	
 	//Basic variables
 	String name; boolean controllable;
