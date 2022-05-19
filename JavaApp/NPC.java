@@ -4,7 +4,7 @@ import java.util.ArrayList;
 public class NPC extends Entity
 {
 	//Setting variables
-	Integer logMaxCount = 10;
+	Integer logMaxCount = 3;
 	
 	//Basic variables
 	String name; boolean controllable;
@@ -98,7 +98,7 @@ public class NPC extends Entity
 			// LEFT MOVEMENT
 			case "a":
 				// IF NOT WALL AND NOT OUT OF MAP
-				if (this.xPos > 0 && map[this.xPos - 1][this.yPos] == 0)
+				if (this.xPos > 0 && map[this.xPos - 1][this.yPos] != 1)
 				{
 					//if player takes the space then attack player instead
 					if (player.xPos == this.xPos - 1 && player.yPos == this.yPos)
@@ -116,7 +116,7 @@ public class NPC extends Entity
 				// RIGHT MOVEMENT
 			case "d":
 				//IF EMPTY MOVE RIGHT
-				if (this.xPos < map.length - 1 && map[this.xPos + 1][this.yPos] == 0 )
+				if (this.xPos < map.length - 1 && map[this.xPos + 1][this.yPos] != 1 )
 				{
 					//if player takes the space then attack player instead
 					if (player.xPos == this.xPos + 1 && player.yPos == this.yPos)
@@ -134,7 +134,7 @@ public class NPC extends Entity
 				// FORWARD MOVEMENT
 			case "w":
 				//IF EMPTY MOVE FORWARD
-				if (this.yPos > 0 && map[this.xPos][this.yPos - 1] == 0)
+				if (this.yPos > 0 && map[this.xPos][this.yPos - 1] != 1)
 				{
 					
 					//if player takes the space then attack player instead
@@ -153,7 +153,7 @@ public class NPC extends Entity
 				//DOWNWARD MOVEMENT
 			case "s":
 				
-				if (this.yPos < map[0].length - 1 && map[this.xPos][this.yPos + 1] == 0)
+				if (this.yPos < map[0].length - 1 && map[this.xPos][this.yPos + 1] != 1)
 				{
 					//if player takes the space then attack player instead
 					if (player.xPos == this.xPos && player.yPos == this.yPos + 1)

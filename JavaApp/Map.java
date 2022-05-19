@@ -8,6 +8,7 @@ public class Map {
   //Dimensions of map
     int width;
     int height;
+    int level;
     int[][] tiles;
     ArrayList<RoomCluster> roomClusters;
 
@@ -15,6 +16,7 @@ public class Map {
     {
         this.width = (int)(Math.random() * 30) + 34;
         this.height = (int)(Math.random() * 30 )+ 14;
+        this.level = 1;
 
         //Operate knowing I screwed up the XY for the map way earlier
         this.tiles = new int[this.width][this.height];
@@ -78,6 +80,63 @@ public class Map {
         //Generate paths between rooms
         generateDoors();
 
+        //Generate Door
+        generateExit();
+
+        //Finally, add walls to the outside of ground tiles connected to nothing
+        generateWalls();
+
+    }
+
+    private void generateWalls()
+    {
+        //iterate through each tile on map  
+        for(int i = 0; i < this.tiles.length; i++)
+            {
+                for (int j = 0; j < this.tiles[i].length; j++)
+                {
+                    // if tile is place replace adjacent tiles with walls
+                    if (this.tiles[i][j] == 0)
+                    {
+                        // Top
+                        if (this.tiles[i][Math.max(0, j - 1)] == 2)
+                        {
+                            this.tiles[i][Math.max(0, j - 1)] = 1;
+                        }
+                        // Under
+                        if (this.tiles[i][Math.max(0, j + 1)] == 2)
+                        {
+                            this.tiles[i][Math.max(0, j + 1)] = 1;
+                        }
+                        // Left
+                        if (this.tiles[Math.max(0, i - 1)][j] == 2)
+                        {
+                            this.tiles[Math.max(0, i - 1)][j] = 1;
+                        }
+                        // Right
+                        if (this.tiles[Math.max(0, i + 1)][j] == 2)
+                        {
+                            this.tiles[Math.max(0, i + 1)][j] = 1;
+                        }
+                    }
+                }
+            } 
+    }
+
+    private void generateExit()
+    {
+        Vector2 selectedTile = new Vector2(0, 0);
+        //Select random tile from last room
+        for (int i = this.roomClusters.size() - 1; i >= 0; i--)
+        {
+            if (this.roomClusters.get(i).tiles.size() > 0 && (selectedTile.x == 0 && selectedTile.y == 0))
+            {
+                selectedTile = this.roomClusters.get(i).getRandomTileFromCluster();
+                //After selecting tile then add door
+                this.tiles[selectedTile.x][selectedTile.y] = 3;
+            }         
+        }  
+
     }
 
     private void generateDoors()
@@ -111,13 +170,10 @@ public class Map {
                         addLine(this.roomClusters.get(i).getRandomTileFromCluster(), this.roomClusters.get(i + j).getRandomTileFromCluster());
                     }catch(Exception e)
                     {
-                        Personal1.player.addToLog("Error in line gen", Personal1.turnNumber);
+                       
                     }
                 }
             }
-
-            //addLine(this.roomClusters.get(0).getRandomTileFromCluster(), this.roomClusters.get(1).getRandomTileFromCluster());
-            //addLine(this.roomClusters.get(1).getRandomTileFromCluster(), this.roomClusters.get(2).getRandomTileFromCluster());
         }
     }
 

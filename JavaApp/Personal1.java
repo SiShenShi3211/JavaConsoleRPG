@@ -9,51 +9,19 @@ import java.util.concurrent.TimeUnit;
 public class Personal1
 {
 	//Declare static variables, generally important
-	// public static int[][] map = {
-	// 		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-	// 		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-	// 		{0,0,1,1,0,0,0,1,1,0,0,0,1,1,0,0},
-	// 		{0,0,1,1,0,0,0,1,1,0,0,0,1,1,0,0},
-	// 		{0,0,1,1,0,0,0,1,1,0,0,0,1,1,0,0},
-	// 		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-	// 		{0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0},
-	// 		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-	// 		{0,0,1,1,0,0,0,1,1,0,0,0,1,1,0,0},
-	// 		{0,0,1,1,0,0,0,1,1,0,0,0,1,1,0,0},
-	// 		{0,0,1,1,0,0,0,1,1,0,0,0,1,1,0,0},
-	// 		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-	// 		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-	// 		{0,0,0,1,1,0,1,1,1,1,0,1,1,0,0,0},
-	// 		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-	// 		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-	// 		{0,0,1,1,0,0,0,1,1,0,0,0,1,1,0,0},
-	// 		{0,0,1,1,0,0,0,1,1,0,0,0,1,1,0,0},
-	// 		{0,0,1,1,0,0,0,1,1,0,0,0,1,1,0,0},
-	// 		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-	// 		{0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0},
-	// 		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-	// 		{0,0,1,1,0,0,0,1,1,0,0,0,1,1,0,0},
-	// 		{0,0,1,1,0,0,0,1,1,0,0,0,1,1,0,0},
-	// 		{0,0,1,1,0,0,0,1,1,0,0,0,1,1,0,0},
-	// 		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-	// 		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-	// 		{0,0,0,1,1,0,1,1,1,1,0,1,1,0,0,0},
-	// 		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-	// 		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-	// };
 	//Make map random
 	public static Map gameMap = new Map();
 	public static int[][] map;
 	
 
 
-	public static NPC[] entities = new NPC[15];
+	public static NPC[] entities = new NPC[25];
 	public static PlayerObject player = new PlayerObject();
 	public static int turnNumber = 0;
 	public static void main(String[] args)
 	{
-		gameMap.generateDungeon();
-		map = gameMap.tiles;
+		//Generate the map
+		generateMap();
 
 		
 		//Test weapon
@@ -72,10 +40,6 @@ public class Personal1
 		
 		//Player
 		entities[1] = player;
-
-		String text = "WIDTH: " + map.length + " ## HEIGHT: " + map[0].length;
-		player.addToLog(text, turnNumber);
-		
 		
 		
 		
@@ -128,13 +92,18 @@ public class Personal1
 		turnNumber++;
 		
 		//Print turn # and log
-		System.out.println("Turn " + turnNumber);
+		System.out.println("Turn " + turnNumber + " |||  Floor " + gameMap.level);
 		player.printLog();
 		
 		//print log
 		
 		//Bottom Wall
-		System.out.println("-------------------------------------------------------------");
+		for (int i = 0; i <gameMap.tiles.length; i++ )
+		{
+			System.out.print("██");
+		}
+		System.out.println();
+		
 		
 		// render map
 		renderMap();
@@ -182,8 +151,12 @@ public class Personal1
 	{
 		
 		
-		//End with 2 blocks of # for outline
-		System.out.println("-------------------------------------------------------------\n-------------------------------------------------------------\n");
+		//Padding with top wall
+		for (int i = 0; i <gameMap.tiles.length; i++ )
+		{
+			System.out.print("██");
+		}
+		System.out.println();
 		
 		//print out stats
 		System.out.print("HP: " + player.hp + "/" + player.maxHp + "\n");
@@ -279,7 +252,7 @@ public class Personal1
 			break;
 		
 		case 3:
-		System.out.print("D ");
+		System.out.print(ScenePrefabs.colorText(ScenePrefabs.YELLOW, "D "));
 			break;
 		
 		case 4:
@@ -409,8 +382,9 @@ public class Personal1
 		// LEFT MOVEMENT
 		case "a":
 			// IF NOT WALL AND NOT OUT OF MAP
-			if (player.xPos > 0 && map[player.xPos - 1][player.yPos] == 0)
+			if (player.xPos > 0 && map[player.xPos - 1][player.yPos] != 1)
 			{
+
 				//If checks to see if there is an entitiy, then it checks if it is dead or not
 				if (entityAt(player.xPos - 1, player.yPos) && returnEntityAt(player.xPos - 1, player.yPos).dead == false)
 				{
@@ -419,6 +393,8 @@ public class Personal1
 				}
 				else
 				{
+					//First check if we are changing to a diff dungeon
+					checkDungeonClearTile(map[player.xPos - 1][player.yPos]);
 					player.xPos -= 1;
 				}
 				
@@ -429,8 +405,9 @@ public class Personal1
 			// RIGHT MOVEMENT
 		case "d":
 			//IF EMPTY MOVE RIGHT
-			if (player.xPos < map.length - 1 && map[player.xPos + 1][player.yPos] == 0 )
+			if (player.xPos < map.length - 1 && map[player.xPos + 1][player.yPos] != 1 )
 			{
+
 				//Check for entity and if dead
 				if (entityAt(player.xPos + 1, player.yPos) && returnEntityAt(player.xPos + 1, player.yPos).dead == false)
 				{
@@ -439,6 +416,8 @@ public class Personal1
 				}
 				else
 				{
+					//First check if we are changing to a diff dungeon
+					checkDungeonClearTile(map[player.xPos + 1][player.yPos]);
 					player.xPos += 1;
 				}
 				
@@ -449,8 +428,9 @@ public class Personal1
 			// FORWARD MOVEMENT
 		case "w":
 			//IF EMPTY MOVE FORWARD
-			if (player.yPos > 0 && map[player.xPos][player.yPos - 1] == 0)
+			if (player.yPos > 0 && map[player.xPos][player.yPos - 1] != 1)
 			{
+
 				if (entityAt(player.xPos, player.yPos - 1) && returnEntityAt(player.xPos, player.yPos - 1).dead == false)
 				{
 					//Attack enemy
@@ -458,6 +438,8 @@ public class Personal1
 				}
 				else
 				{
+					//First check if we are changing to a diff dungeon
+					checkDungeonClearTile(map[player.xPos][player.yPos - 1]);
 					player.yPos -= 1;
 				}
 				
@@ -468,8 +450,10 @@ public class Personal1
 			//DOWNWARD MOVEMENT
 		case "s":
 			
-			if (player.yPos < map[0].length - 1 && map[player.xPos][player.yPos + 1] == 0)
+			if (player.yPos < map[0].length - 1 && map[player.xPos][player.yPos + 1] != 1)
 			{
+
+
 				if (entityAt(player.xPos, player.yPos + 1) && returnEntityAt(player.xPos, player.yPos + 1).dead == false)
 				{
 					//Attack enemy
@@ -477,6 +461,8 @@ public class Personal1
 				}
 				else
 				{
+					//check if we are changing to a diff dungeon
+					checkDungeonClearTile(map[player.xPos][player.yPos + 1]);
 					player.yPos += 1;
 				}
 			}
@@ -499,8 +485,7 @@ public class Personal1
 			break;
 
 		case "g": //DEBUG ONLY
-			gameMap.generateDungeon();
-			map = gameMap.tiles;
+			generateMap();
 			break;
 		
 		default:
@@ -508,7 +493,30 @@ public class Personal1
 			
 		}
 	}
+
+	//If tile is of door type then we want to generate a new dungeon
+	public static void checkDungeonClearTile(int type)
+	{
+		if (type == 3)
+		{
+			//Generate new dungeon
+			generateMap();
+		}
+	}
 	
+	public static void generateMap()
+	{
+		//Generate map
+		gameMap.generateDungeon();
+		map = gameMap.tiles;
+
+		//Increment level
+		gameMap.level++;
+
+		//Spawn player in first room
+		Vector2 spawnTile = gameMap.roomClusters.get(0).getRandomTileFromCluster();
+		player.xPos = spawnTile.x; player.yPos = spawnTile.y;
+	}
 	
 	
 	public static void printInventory()
@@ -542,7 +550,7 @@ public class Personal1
 			
 			//Open item inventory
 			case "v":
-				player.addToLog("OPENED CONSUMABLE INVENTORY", turnNumber);
+				//player.addToLog("OPENED CONSUMABLE INVENTORY", turnNumber);
 				System.out.println("Please select index of item: ");
 				int consumeIndex = sc.nextInt();
 				player.handleConsume(consumeIndex);
@@ -550,7 +558,7 @@ public class Personal1
 			
 			//Open gear inventory
 			case "b":
-				player.addToLog("OPENED GEAR INVENTORY", turnNumber);
+				//player.addToLog("OPENED GEAR INVENTORY", turnNumber);
 				//Ask player to select a number
 				System.out.println("Please select index of item: ");
 				int itemIndex = sc.nextInt();
@@ -559,7 +567,7 @@ public class Personal1
 			
 			//If not good input exit function
 			default:
-				player.addToLog("FAULTY INPUT FOR INVENTORY", turnNumber);
+				//player.addToLog("FAULTY INPUT FOR INVENTORY", turnNumber);
 			break;
 		}
 	}
