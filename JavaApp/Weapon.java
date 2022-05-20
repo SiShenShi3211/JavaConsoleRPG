@@ -34,12 +34,6 @@ public class Weapon extends Item {
 	}
 	
 	
-	//When the player interacts with this we need to add it to their inventory
-	public void mapInteract()
-	{
-		//Add implementation
-	}
-	
 	
 	
 }
