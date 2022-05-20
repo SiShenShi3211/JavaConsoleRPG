@@ -34,9 +34,9 @@ public class Personal1
 		testItem.pickUp();
 		
 		//temporary enemies
-		entities[0] = new NPC(false, "ghost", new int[]{3,3,2,6, 1}, new int[] {12,8});
-		entities[2] = new NPC(false, "Goblin", new int[]{10,10,8,1, 4}, new int[] {0,3});
-		entities[3] = new NPC(false, "Skeleton", new int[]{4,4,5,3, 3}, new int[] {4,10});
+		//entities[0] = new NPC(false, "ghost", new int[]{3,3,2,6, 1}, new int[] {12,8});
+		//entities[2] = new NPC(false, "Goblin", new int[]{10,10,8,1, 4}, new int[] {0,3});
+		//entities[3] = new NPC(false, "Skeleton", new int[]{4,4,5,3, 3}, new int[] {4,10});
 		
 		//Player
 		entities[1] = player;
@@ -258,42 +258,6 @@ public class Personal1
 		case 4:
 		System.out.print("L ");
 			break;
-		
-		case 10:
-		System.out.print("0 ");
-			break;
-			
-		case 11:
-		System.out.print("1 ");
-			break;
-			
-		case 12:
-		System.out.print("2 ");
-			break;
-
-		case 13:
-		System.out.print("3 ");
-			break;
-			
-		case 14:
-		System.out.print("4 ");
-			break;
-			
-		case 15:
-		System.out.print("5 ");
-			break;
-
-		case 16:
-		System.out.print("6 ");
-			break;
-			
-		case 17:
-		System.out.print("7 ");
-			break;
-			
-		case 18:
-		System.out.print("8 ");
-			break;
 
 		default:
 		System.out.print("? ");
@@ -513,11 +477,65 @@ public class Personal1
 		//Increment level
 		gameMap.level++;
 
+		//Spawn in new entities	
+		generateEntities();	
+
 		//Spawn player in first room
 		Vector2 spawnTile = gameMap.roomClusters.get(0).getRandomTileFromCluster();
 		player.xPos = spawnTile.x; player.yPos = spawnTile.y;
 	}
 	
+	public static void generateEntities()
+	{
+		//Clear entities
+		for (int i = 0; i < entities.length; i++)
+		{
+			entities[i] = new NPC(false, "ghost", new int[]{3,3,2,6, 1}, new int[] {1,8});
+		}
+
+		//Add player entity
+		entities[0] = player;
+
+		//Add random entities in the map
+		String[] nameArray = {"Ghost", "Goblin", "Rat", "Eagle", "Skeleton", "Beast", "Bat", "Corrupt Monk", "Slime", "Witch", "Cyclops"};
+		int spawnCurrent = 0;
+		for (int enemyIndex = 0; enemyIndex < entities.length; enemyIndex++)
+		{
+			//Add random amount of enemies in each room
+			for (int i = 0; i < gameMap.roomClusters.size(); i++)
+			{
+				spawnCurrent = 0;
+				if (gameMap.roomClusters.get(i).tiles.size() > 10)
+				{
+					try 
+					{
+						//For each cluster, spawn monster every 11 tiles
+						for (int j = 0; j < gameMap.roomClusters.get(i).tiles.size() / 20 && enemyIndex < entities.length & spawnCurrent <= 3; j++)
+						{
+							//Spawn monster in random location
+
+							//Generate monster stats
+							String monsterName = (nameArray[(int)(Math.random() * (nameArray.length + 1))]);
+							int monsterHealth = (int)(Math.random() * (20)) + 3;
+							int monsterStrengthDex = (int)(Math.random() * (15)) + 3;
+							
+							//Spawn monster with random place
+							Vector2 monsterPos = gameMap.roomClusters.get(i).getRandomTileFromCluster();
+							entities[enemyIndex] = new NPC(false, monsterName, new int[]{monsterHealth,monsterHealth,monsterStrengthDex,monsterStrengthDex, 1}, new int[] {monsterPos.x,monsterPos.y});
+
+							//Increment entity counter so we dont go past limit
+							enemyIndex++;
+							spawnCurrent++;
+						}
+					} catch (Exception e)
+					{
+
+					}
+				}
+				
+			}
+		}
+	}
 	
 	public static void printInventory()
 	{

@@ -16,7 +16,7 @@ public class Map {
     {
         this.width = (int)(Math.random() * 30) + 34;
         this.height = (int)(Math.random() * 30 )+ 14;
-        this.level = 1;
+        this.level = 0;
 
         //Operate knowing I screwed up the XY for the map way earlier
         this.tiles = new int[this.width][this.height];
